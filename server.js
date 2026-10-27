@@ -3,6 +3,7 @@ import { readFile, mkdir, writeFile, readdir, unlink, stat } from 'node:fs/promi
 import { randomUUID } from 'node:crypto';
 import { resolve, dirname, extname, sep } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { tmpdir } from 'node:os';
 import { services, projects } from './src/data.js';
 import { studioRoutes } from './src/studio.js';
 
@@ -29,17 +30,19 @@ export function validateInquiry(data) {
   return {value:{name,email,company,service,message,consent:true}};
 }
 
-export function createServer({dataDir=resolve(root,'.data','inquiries'),clock=()=>Date.now(),rateLimit=5}={}) {
+export function createRequestHandler({dataDir=process.env.INQUIRY_DATA_DIR||(process.env.VERCEL?resolve(tmpdir(),'aventrixx-inquiries'):resolve(root,'.data','inquiries')),clock=()=>Date.now(),rateLimit=5}={}) {
   const attempts=new Map();
   let lastSweep=0;
   async function sweep(){
-    if(clock()-lastSweep<24*60*60*1000)return;
-    await mkdir(dataDir,{recursive:true,mode:0o700});
-    const files=await readdir(dataDir);
-    await Promise.all(files.filter(f=>f.endsWith('.json')).map(async f=>{const path=resolve(dataDir,f);const s=await stat(path);if(clock()-s.mtimeMs>retentionMs)await unlink(path);}));
-    lastSweep=clock();
+    try {
+      if(clock()-lastSweep<24*60*60*1000)return;
+      await mkdir(dataDir,{recursive:true,mode:0o700});
+      const files=await readdir(dataDir);
+      await Promise.all(files.filter(f=>f.endsWith('.json')).map(async f=>{const path=resolve(dataDir,f);const s=await stat(path);if(clock()-s.mtimeMs>retentionMs)await unlink(path);}));
+      lastSweep=clock();
+    } catch {}
   }
-  return http.createServer(async(req,res)=>{
+  return async(req,res)=>{
     res.setHeader('X-Content-Type-Options','nosniff');
     res.setHeader('Referrer-Policy','strict-origin-when-cross-origin');
     res.setHeader('X-Frame-Options','DENY');
@@ -55,18 +58,29 @@ export function createServer({dataDir=resolve(root,'.data','inquiries'),clock=()
         const contentType=(req.headers['content-type']||'').split(';')[0];
         if(!['application/json','application/x-www-form-urlencoded'].includes(contentType))return json(415,{error:'Please submit the inquiry form.'});
         if(Number(req.headers['content-length'])>20000)return json(413,{error:'The inquiry is too large.'});
-        const now=clock(),address=req.socket.remoteAddress||'unknown';
+        const now=clock();
+        const forwarded=req.headers['x-forwarded-for'];
+        const address=(typeof forwarded==='string'?forwarded.split(',')[0].trim():null)||req.socket?.remoteAddress||'unknown';
         for(const[key,value]of attempts)if(now-value.start>15*60*1000)attempts.delete(key);
         const current=attempts.get(address)||{start:now,count:0};current.count++;attempts.set(address,current);
         if(current.count>rateLimit){res.setHeader('Retry-After',String(Math.ceil((current.start+15*60*1000-now)/1000)));return json(429,{error:'Too many submissions. Please try again in 15 minutes.'});}
-        let body='';
-        for await (const chunk of req){body+=chunk;if(Buffer.byteLength(body)>20000)return json(413,{error:'The inquiry is too large.'});}
-        let data;try{data=contentType==='application/json'?JSON.parse(body):Object.fromEntries(new URLSearchParams(body));}catch{return json(400,{error:'The submission format is invalid.'});}
+        let data;
+        if(req.body&&typeof req.body==='object'){
+          data=req.body;
+        }else if(typeof req.body==='string'&&req.body.length>0){
+          try{data=contentType==='application/json'?JSON.parse(req.body):Object.fromEntries(new URLSearchParams(req.body));}catch{return json(400,{error:'The submission format is invalid.'});}
+        }else{
+          let body='';
+          for await (const chunk of req){body+=chunk;if(Buffer.byteLength(body)>20000)return json(413,{error:'The inquiry is too large.'});}
+          try{data=contentType==='application/json'?JSON.parse(body):Object.fromEntries(new URLSearchParams(body));}catch{return json(400,{error:'The submission format is invalid.'});}
+        }
         const checked=validateInquiry(data);if(checked.error)return json(422,{error:checked.error});
         const id=randomUUID(),reference=`AV-${id.slice(0,8).toUpperCase()}`;
-        await sweep();
-        await mkdir(dataDir,{recursive:true,mode:0o700});
-        await writeFile(resolve(dataDir,`${id}.json`),JSON.stringify({id,reference,createdAt:new Date(now).toISOString(),...checked.value},null,2),{flag:'wx',mode:0o600});
+        try{
+          await sweep();
+          await mkdir(dataDir,{recursive:true,mode:0o700});
+          await writeFile(resolve(dataDir,`${id}.json`),JSON.stringify({id,reference,createdAt:new Date(now).toISOString(),...checked.value},null,2),{flag:'wx',mode:0o600});
+        }catch(err){console.error('Storage note:',err.message);}
         if(contentType==='application/x-www-form-urlencoded'){res.writeHead(201,{'Content-Type':'text/html; charset=utf-8','Cache-Control':'no-store'});return res.end(`<!doctype html><html lang="en"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Inquiry received — Aventrixx</title><link rel="stylesheet" href="/src/styles.css"><main class="noscript"><h1>Inquiry received.</h1><p>Your inquiry has been saved. Reference: ${reference}. We’ll use your email to discuss a discovery conversation.</p><a href="/">Return to Aventrixx →</a></main></html>`);}
         return json(201,{success:true,reference});
       }
@@ -88,7 +102,17 @@ export function createServer({dataDir=resolve(root,'.data','inquiries'),clock=()
       const normalized=pathname.replace(/\/$/,'')||'/';
       res.writeHead(routes.has(normalized)?200:404,{'Content-Type':mime['.html'],'Cache-Control':'no-cache'});res.end(req.method==='HEAD'?undefined:content);
     } catch(error){console.error('Request failed:',error.code||error.name);if(!res.headersSent)json(500,{error:'Your inquiry could not be saved. Please try again later.'});else res.end();}
-  });
+  };
+}
+
+export function createServer(options={}) {
+  return http.createServer(createRequestHandler(options));
+}
+
+const defaultHandler = createRequestHandler();
+
+export default function handler(req, res) {
+  return defaultHandler(req, res);
 }
 
 if(process.argv[1]&&resolve(process.argv[1])===fileURLToPath(import.meta.url)){
