@@ -97,10 +97,11 @@ export function createRequestHandler({dataDir=process.env.INQUIRY_DATA_DIR||(pro
         const cacheControl=pathname.startsWith('/src/')?'no-store':'public, max-age=3600';
         res.writeHead(200,{'Content-Type':mime[extname(file)],'Cache-Control':cacheControl});return res.end(req.method==='HEAD'?undefined:content);
       }
-      if(pathname.startsWith('/.')||extname(pathname))return json(404,{error:'Not found.'});
+      if(pathname.startsWith('/.')||(extname(pathname)&&pathname!=='/index.html'))return json(404,{error:'Not found.'});
       const content=await readFile(resolve(root,'index.html'));
       const normalized=pathname.replace(/\/$/,'')||'/';
-      res.writeHead(routes.has(normalized)?200:404,{'Content-Type':mime['.html'],'Cache-Control':'no-cache'});res.end(req.method==='HEAD'?undefined:content);
+      const isHtmlRoute=normalized==='/index.html'||routes.has(normalized);
+      res.writeHead(isHtmlRoute?200:404,{'Content-Type':mime['.html'],'Cache-Control':'no-cache'});res.end(req.method==='HEAD'?undefined:content);
     } catch(error){console.error('Request failed:',error.code||error.name);if(!res.headersSent)json(500,{error:'Your inquiry could not be saved. Please try again later.'});else res.end();}
   };
 }
