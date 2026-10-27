@@ -1,6 +1,7 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "cleanUrls": true,
+  "outputDirectory": ".",
   "headers": [
     {
       "source": "/(.*)",
@@ -15,8 +16,8 @@
   ],
   "rewrites": [
     { "source": "/api/(.*)", "destination": "/api/$1" },
-    { "source": "/public/(.*)", "destination": "/$1" },
     { "source": "/favicon.ico", "destination": "/public/favicon.svg" },
+    { "source": "/(server\\.js|package\\.json|package-lock\\.json|\\.git.*)", "destination": "/index.html" },
     { "source": "/((?!src/|public/|api/|fonts/).*)", "destination": "/index.html" }
   ]
 }
