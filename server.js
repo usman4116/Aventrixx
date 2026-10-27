@@ -51,7 +51,15 @@ export function createRequestHandler({dataDir=process.env.INQUIRY_DATA_DIR||(pro
     const json=(status,body)=>{res.writeHead(status,{'Content-Type':'application/json; charset=utf-8','Cache-Control':'no-store'});res.end(JSON.stringify(body));};
     try {
       const url=new URL(req.url,`http://${req.headers.host||'localhost'}`);
-      if(url.pathname==='/api/health'){if(req.method!=='GET')return json(405,{error:'Method not allowed.'});return json(200,{status:'ok'});}
+      if(url.pathname==='/api/health'){
+        if(req.method!=='GET')return json(405,{error:'Method not allowed.'});
+        const cwd=process.cwd();
+        const dir=dirname(fileURLToPath(import.meta.url));
+        const cwdFiles=await readdir(cwd).catch(e=>e.message);
+        const srcFiles=await readdir(resolve(cwd,'src')).catch(e=>e.message);
+        const dirFiles=await readdir(dir).catch(e=>e.message);
+        return json(200,{status:'ok',cwd,dir,cwdFiles,srcFiles,dirFiles});
+      }
       if(url.pathname==='/api/inquiries'){
         if(req.method!=='POST'){res.setHeader('Allow','POST');return json(405,{error:'Method not allowed.'});}
         if(req.headers.origin){let origin;try{origin=new URL(req.headers.origin);}catch{return json(403,{error:'This request origin is not allowed.'});}if(origin.host!==req.headers.host)return json(403,{error:'This request origin is not allowed.'});}
