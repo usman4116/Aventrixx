@@ -2,7 +2,7 @@ import { randomUUID } from 'node:crypto';
 import { mkdir, writeFile, readdir, stat, unlink } from 'node:fs/promises';
 import { resolve } from 'node:path';
 import { tmpdir } from 'node:os';
-import { validateInquiry } from '../server.js';
+import { validateInquiry } from '../src/validate.js';
 
 const dataDir = process.env.INQUIRY_DATA_DIR || resolve(tmpdir(), 'aventrixx-inquiries');
 const attempts = new Map();

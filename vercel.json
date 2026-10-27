@@ -1,14 +1,6 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "cleanUrls": true,
-  "functions": {
-    "server.js": {
-      "includeFiles": ["src/**", "public/**", "index.html"]
-    },
-    "api/*.js": {
-      "includeFiles": ["src/**", "server.js"]
-    }
-  },
   "headers": [
     {
       "source": "/(.*)",
@@ -24,6 +16,6 @@
   "rewrites": [
     { "source": "/api/(.*)", "destination": "/api/$1" },
     { "source": "/favicon.ico", "destination": "/public/favicon.svg" },
-    { "source": "/((?!src/|public/|api/|fonts/).*)", "destination": "/index.html" }
+    { "source": "/((?!src/|public/|api/).*)", "destination": "/index.html" }
   ]
 }
