@@ -6,6 +6,7 @@ import { fileURLToPath } from 'node:url';
 import { tmpdir } from 'node:os';
 import { services, projects } from './src/data.js';
 import { studioRoutes } from './src/studio.js';
+import { embeddedAssets } from './src/assets.generated.js';
 
 const root=dirname(fileURLToPath(import.meta.url));
 const mime={'.html':'text/html; charset=utf-8','.css':'text/css; charset=utf-8','.js':'text/javascript; charset=utf-8','.svg':'image/svg+xml','.png':'image/png','.webp':'image/webp','.ico':'image/x-icon','.woff2':'font/woff2'};
@@ -89,6 +90,7 @@ export function createRequestHandler({dataDir=process.env.INQUIRY_DATA_DIR||(pro
           const allowed=pathname.startsWith('/src/')?resolve(base,'src')+sep:resolve(base,'public')+sep;
           if(file.startsWith(allowed)){try{content=await readFile(file);break;}catch{}}
         }
+        if(!content&&embeddedAssets.has(pathname)){content=embeddedAssets.get(pathname);}
         if(!content)return json(404,{error:'Asset not found.'});
         const cacheControl=pathname.startsWith('/src/')?'no-store':'public, max-age=3600';
         res.writeHead(200,{'Content-Type':mime[ext],'Cache-Control':cacheControl});return res.end(req.method==='HEAD'?undefined:content);
@@ -96,6 +98,7 @@ export function createRequestHandler({dataDir=process.env.INQUIRY_DATA_DIR||(pro
       if(pathname.startsWith('/.')||(extname(pathname)&&pathname!=='/index.html'))return json(404,{error:'Not found.'});
       let content;
       for(const base of [process.cwd(),root]){try{content=await readFile(resolve(base,'index.html'));break;}catch{}}
+      if(!content&&embeddedAssets.has('/index.html')){content=embeddedAssets.get('/index.html');}
       if(!content)return json(500,{error:'Template missing.'});
       const normalized=pathname.replace(/\/$/,'')||'/';
       const isHtmlRoute=normalized==='/index.html'||routes.has(normalized);
