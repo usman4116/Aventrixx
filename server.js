@@ -89,16 +89,22 @@ export function createRequestHandler({dataDir=process.env.INQUIRY_DATA_DIR||(pro
       let pathname;try{pathname=decodeURIComponent(url.pathname);}catch{return json(400,{error:'Invalid path.'});}
       const isAsset=pathname.startsWith('/src/')||pathname.startsWith('/public/');
       if(isAsset){
-        if(!['.js','.css','.svg','.png','.webp','.ico','.woff2'].includes(extname(pathname)))return json(404,{error:'Asset not found.'});
-        const file=resolve(root,`.${pathname}`);
-        const allowed=pathname.startsWith('/src/')?resolve(root,'src')+sep:resolve(root,'public')+sep;
-        if(!file.startsWith(allowed))return json(403,{error:'Access denied.'});
-        let content;try{content=await readFile(file);}catch{return json(404,{error:'Asset not found.'});}
+        const ext=extname(pathname);
+        if(!['.js','.css','.svg','.png','.webp','.ico','.woff2'].includes(ext))return json(404,{error:'Asset not found.'});
+        let content;
+        for(const base of [process.cwd(),root]){
+          const file=resolve(base,`.${pathname}`);
+          const allowed=pathname.startsWith('/src/')?resolve(base,'src')+sep:resolve(base,'public')+sep;
+          if(file.startsWith(allowed)){try{content=await readFile(file);break;}catch{}}
+        }
+        if(!content)return json(404,{error:'Asset not found.'});
         const cacheControl=pathname.startsWith('/src/')?'no-store':'public, max-age=3600';
-        res.writeHead(200,{'Content-Type':mime[extname(file)],'Cache-Control':cacheControl});return res.end(req.method==='HEAD'?undefined:content);
+        res.writeHead(200,{'Content-Type':mime[ext],'Cache-Control':cacheControl});return res.end(req.method==='HEAD'?undefined:content);
       }
       if(pathname.startsWith('/.')||(extname(pathname)&&pathname!=='/index.html'))return json(404,{error:'Not found.'});
-      const content=await readFile(resolve(root,'index.html'));
+      let content;
+      for(const base of [process.cwd(),root]){try{content=await readFile(resolve(base,'index.html'));break;}catch{}}
+      if(!content)return json(500,{error:'Template missing.'});
       const normalized=pathname.replace(/\/$/,'')||'/';
       const isHtmlRoute=normalized==='/index.html'||routes.has(normalized);
       res.writeHead(isHtmlRoute?200:404,{'Content-Type':mime['.html'],'Cache-Control':'no-cache'});res.end(req.method==='HEAD'?undefined:content);
