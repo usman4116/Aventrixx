@@ -1,0 +1,382 @@
+{
+  "sitemap_entries": 90,
+  "public_pages": [
+    {
+      "url": "https://trae.ai/",
+      "status": 200,
+      "bytes": 12772,
+      "file": "home.html"
+    },
+    {
+      "url": "https://trae.ai/ja",
+      "status": 200,
+      "bytes": 12500,
+      "file": "ja.html"
+    },
+    {
+      "url": "https://trae.ai/ide",
+      "status": 200,
+      "bytes": 10788,
+      "file": "ide.html"
+    },
+    {
+      "url": "https://trae.ai/blog",
+      "status": 200,
+      "bytes": 48141,
+      "file": "blog.html"
+    },
+    {
+      "url": "https://trae.ai/solo",
+      "status": 200,
+      "bytes": 10788,
+      "file": "solo.html"
+    },
+    {
+      "url": "https://trae.ai/work",
+      "status": 200,
+      "bytes": 10788,
+      "file": "work.html"
+    },
+    {
+      "url": "https://trae.ai/pricing",
+      "status": 200,
+      "bytes": 87124,
+      "file": "pricing.html"
+    },
+    {
+      "url": "https://trae.ai/ja/blog",
+      "status": 200,
+      "bytes": 48207,
+      "file": "ja__blog.html"
+    },
+    {
+      "url": "https://trae.ai/ja/solo",
+      "status": 200,
+      "bytes": 10788,
+      "file": "ja__solo.html"
+    },
+    {
+      "url": "https://trae.ai/download",
+      "status": 200,
+      "bytes": 21779,
+      "file": "download.html"
+    },
+    {
+      "url": "https://trae.ai/solo-web",
+      "status": 200,
+      "bytes": 10788,
+      "file": "solo-web.html"
+    },
+    {
+      "url": "https://trae.ai/changelog",
+      "status": 200,
+      "bytes": 16752,
+      "file": "changelog.html"
+    },
+    {
+      "url": "https://trae.ai/enterprise",
+      "status": 200,
+      "bytes": 37153,
+      "file": "enterprise.html"
+    },
+    {
+      "url": "https://trae.ai/ja/pricing",
+      "status": 200,
+      "bytes": 87190,
+      "file": "ja__pricing.html"
+    },
+    {
+      "url": "https://trae.ai/ja/download",
+      "status": 200,
+      "bytes": 21842,
+      "file": "ja__download.html"
+    },
+    {
+      "url": "https://trae.ai/ja/changelog",
+      "status": 200,
+      "bytes": 16807,
+      "file": "ja__changelog.html"
+    },
+    {
+      "url": "https://trae.ai/cookie-policy",
+      "status": 200,
+      "bytes": 11222,
+      "file": "cookie-policy.html"
+    },
+    {
+      "url": "https://trae.ai/ja/enterprise",
+      "status": 200,
+      "bytes": 37216,
+      "file": "ja__enterprise.html"
+    },
+    {
+      "url": "https://trae.ai/privacy-policy",
+      "status": 200,
+      "bytes": 11237,
+      "file": "privacy-policy.html"
+    },
+    {
+      "url": "https://trae.ai/terms-of-service",
+      "status": 200,
+      "bytes": 11267,
+      "file": "terms-of-service.html"
+    },
+    {
+      "url": "https://trae.ai/ja/cookie-policy",
+      "status": 200,
+      "bytes": 11285,
+      "file": "ja__cookie-policy.html"
+    },
+    {
+      "url": "https://trae.ai/ja/privacy-policy",
+      "status": 200,
+      "bytes": 11300,
+      "file": "ja__privacy-policy.html"
+    },
+    {
+      "url": "https://trae.ai/events/annual-2025",
+      "status": 200,
+      "bytes": 14954,
+      "file": "events__annual-2025.html"
+    },
+    {
+      "url": "https://trae.ai/blog/supabase_112",
+      "status": 200,
+      "bytes": 21048,
+      "file": "blog__supabase_112.html"
+    },
+    {
+      "url": "https://trae.ai/blog/product_solo",
+      "status": 200,
+      "bytes": 25294,
+      "file": "blog__product_solo.html"
+    },
+    {
+      "url": "https://trae.ai/enterprise/download",
+      "status": 200,
+      "bytes": 20034,
+      "file": "enterprise__download.html"
+    },
+    {
+      "url": "https://trae.ai/ja/terms-of-service",
+      "status": 200,
+      "bytes": 11330,
+      "file": "ja__terms-of-service.html"
+    },
+    {
+      "url": "https://trae.ai/blog/trae_work_0609",
+      "status": 200,
+      "bytes": 18937,
+      "file": "blog__trae_work_0609.html"
+    },
+    {
+      "url": "https://trae.ai/blog/vercel_in_trae",
+      "status": 200,
+      "bytes": 19153,
+      "file": "blog__vercel_in_trae.html"
+    },
+    {
+      "url": "https://trae.ai/blog/case_study_0905",
+      "status": 200,
+      "bytes": 23465,
+      "file": "blog__case_study_0905.html"
+    },
+    {
+      "url": "https://trae.ai/ja/enterprise/download",
+      "status": 200,
+      "bytes": 20040,
+      "file": "ja__enterprise__download.html"
+    },
+    {
+      "url": "https://trae.ai/blog/trae_update_0902",
+      "status": 200,
+      "bytes": 17541,
+      "file": "blog__trae_update_0902.html"
+    },
+    {
+      "url": "https://trae.ai/blog/product_new_look",
+      "status": 200,
+      "bytes": 19310,
+      "file": "blog__product_new_look.html"
+    },
+    {
+      "url": "https://trae.ai/blog/product_solo_1112",
+      "status": 200,
+      "bytes": 26581,
+      "file": "blog__product_solo_1112.html"
+    },
+    {
+      "url": "https://trae.ai/blog/new_solo_beta_0331",
+      "status": 200,
+      "bytes": 31683,
+      "file": "blog__new_solo_beta_0331.html"
+    },
+    {
+      "url": "https://trae.ai/blog/trae_tutorial_0115",
+      "status": 200,
+      "bytes": 25439,
+      "file": "blog__trae_tutorial_0115.html"
+    },
+    {
+      "url": "https://trae.ai/blog/solo_tutorial_1112",
+      "status": 200,
+      "bytes": 24330,
+      "file": "blog__solo_tutorial_1112.html"
+    },
+    {
+      "url": "https://trae.ai/blog/trae_tutorial_0825",
+      "status": 200,
+      "bytes": 29950,
+      "file": "blog__trae_tutorial_0825.html"
+    },
+    {
+      "url": "https://trae.ai/blog/product_update_1229",
+      "status": 200,
+      "bytes": 16916,
+      "file": "blog__product_update_1229.html"
+    },
+    {
+      "url": "https://trae.ai/blog/product_update_0625",
+      "status": 200,
+      "bytes": 24070,
+      "file": "blog__product_update_0625.html"
+    },
+    {
+      "url": "https://trae.ai/blog/product_update_0528",
+      "status": 200,
+      "bytes": 26973,
+      "file": "blog__product_update_0528.html"
+    },
+    {
+      "url": "https://trae.ai/blog/trae_work_x_byteplus",
+      "status": 200,
+      "bytes": 42911,
+      "file": "blog__trae_work_x_byteplus.html"
+    },
+    {
+      "url": "https://trae.ai/blog/trae_membership_0213",
+      "status": 200,
+      "bytes": 22389,
+      "file": "blog__trae_membership_0213.html"
+    },
+    {
+      "url": "https://trae.ai/blog/product_thought_0819",
+      "status": 200,
+      "bytes": 17238,
+      "file": "blog__product_thought_0819.html"
+    },
+    {
+      "url": "https://trae.ai/blog/product_thought_0617",
+      "status": 200,
+      "bytes": 24510,
+      "file": "blog__product_thought_0617.html"
+    },
+    {
+      "url": "https://trae.ai/blog/product_thought_0609",
+      "status": 200,
+      "bytes": 21732,
+      "file": "blog__product_thought_0609.html"
+    },
+    {
+      "url": "https://trae.ai/blog/product_thought_0526",
+      "status": 200,
+      "bytes": 18901,
+      "file": "blog__product_thought_0526.html"
+    },
+    {
+      "url": "https://trae.ai/blog/product_thought_0428",
+      "status": 200,
+      "bytes": 19224,
+      "file": "blog__product_thought_0428.html"
+    },
+    {
+      "url": "https://trae.ai/blog/product_thought_0421",
+      "status": 200,
+      "bytes": 22104,
+      "file": "blog__product_thought_0421.html"
+    },
+    {
+      "url": "https://trae.ai/blog/product_thought_0416",
+      "status": 200,
+      "bytes": 23652,
+      "file": "blog__product_thought_0416.html"
+    },
+    {
+      "url": "https://trae.ai/blog/trae_work_design_0625",
+      "status": 200,
+      "bytes": 21913,
+      "file": "blog__trae_work_design_0625.html"
+    },
+    {
+      "url": "https://trae.ai/blog/trae_solo_mobile_0506",
+      "status": 200,
+      "bytes": 29628,
+      "file": "blog__trae_solo_mobile_0506.html"
+    },
+    {
+      "url": "https://trae.ai/blog/trae_2025_yearly_review",
+      "status": 200,
+      "bytes": 24763,
+      "file": "blog__trae_2025_yearly_review.html"
+    },
+    {
+      "url": "https://trae.ai/blog/engineering_thought_0108",
+      "status": 200,
+      "bytes": 21097,
+      "file": "blog__engineering_thought_0108.html"
+    },
+    {
+      "url": "https://trae.ai/blog/engineering_thought_1229",
+      "status": 200,
+      "bytes": 29398,
+      "file": "blog__engineering_thought_1229.html"
+    },
+    {
+      "url": "https://trae.ai/blog/engineering_thought_0822",
+      "status": 200,
+      "bytes": 26043,
+      "file": "blog__engineering_thought_0822.html"
+    },
+    {
+      "url": "https://trae.ai/blog/engineering_thought_0731",
+      "status": 200,
+      "bytes": 21477,
+      "file": "blog__engineering_thought_0731.html"
+    }
+  ],
+  "account_or_action_routes": [
+    "https://trae.ai/login",
+    "https://trae.ai/banned",
+    "https://trae.ai/sign-up",
+    "https://trae.ai/ja/login",
+    "https://trae.ai/ja/banned",
+    "https://trae.ai/promo-code",
+    "https://trae.ai/invitation",
+    "https://trae.ai/ja/sign-up",
+    "https://trae.ai/lark-oauth",
+    "https://trae.ai/feishu-oauth",
+    "https://trae.ai/ja/promo-code",
+    "https://trae.ai/reset-password",
+    "https://trae.ai/solo-sneakpeek",
+    "https://trae.ai/account-setting",
+    "https://trae.ai/fission/invitee",
+    "https://trae.ai/fission/inviter",
+    "https://trae.ai/invitation/manage",
+    "https://trae.ai/ja/reset-password",
+    "https://trae.ai/ja/solo-sneakpeek",
+    "https://trae.ai/third-party-oauth",
+    "https://trae.ai/ja/fission/invitee",
+    "https://trae.ai/ja/fission/inviter",
+    "https://trae.ai/solo-code-activity",
+    "https://trae.ai/apple-oauth-callback",
+    "https://trae.ai/ja/third-party-oauth",
+    "https://trae.ai/2026-anniversary-gift",
+    "https://trae.ai/solo-get-early-access",
+    "https://trae.ai/vercel-oauth-callback",
+    "https://trae.ai/pricing-plan-migration",
+    "https://trae.ai/ja/solo-get-early-access",
+    "https://trae.ai/ja/vercel-oauth-callback",
+    "https://trae.ai/app/oauth/google-callback",
+    "https://trae.ai/account-setting/components/dashboard"
+  ]
+}
